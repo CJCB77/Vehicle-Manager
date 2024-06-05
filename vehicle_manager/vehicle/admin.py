@@ -18,6 +18,7 @@ class VehicleMakeAdmin(admin.ModelAdmin):
     search_fields = ['name','country'] # This will add a search box to the list view
     list_filter = ['country'] # This will add a filter to the list view
     ordering = ['name'] # This will order the list view by the field
+    readonly_fields = ['created_by', 'last_modified_by'] # This will make the fields read-only in the form
 
 @admin.register(VehicleModel)
 class VehicleModelAdmin(admin.ModelAdmin):
@@ -29,6 +30,7 @@ class VehicleModelAdmin(admin.ModelAdmin):
     search_fields = ['name','make__name'] # __ allows searching by related fields
     list_filter = ['make']
     ordering = ['name']
+    readonly_fields = ['created_by', 'last_modified_by']
 
 @admin.register(VehicleType)
 class VehicleTypeAdmin(admin.ModelAdmin):
@@ -39,6 +41,7 @@ class VehicleTypeAdmin(admin.ModelAdmin):
     ]
     search_fields = ['name']
     ordering = ['name']
+    readonly_fields = ['created_by', 'last_modified_by']
 
 @admin.register(VehicleEngineType)
 class VehicleEngineTypeAdmin(admin.ModelAdmin):
@@ -49,6 +52,7 @@ class VehicleEngineTypeAdmin(admin.ModelAdmin):
     ]
     search_fields = ['name']
     ordering = ['name']
+    readonly_fields = ['created_by', 'last_modified_by']
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
@@ -61,6 +65,7 @@ class VehicleAdmin(admin.ModelAdmin):
     search_fields = ['vehicle_model__name','serial_number','vehicle_type__name']
     list_filter = ['vehicle_model','vehicle_type','transmission','engine_type']
     ordering = ['vehicle_model','serial_number']
+    readonly_fields = ['created_by', 'last_modified_by']
 
     def vehicle_make(self, obj):
         return obj.vehicle_model.make.name
