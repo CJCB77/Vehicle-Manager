@@ -1,3 +1,4 @@
+from typing import Any
 from django.contrib import admin
 from . models import VehicleMake, VehicleModel, VehicleType, VehicleEngineType, Vehicle
 
@@ -20,6 +21,13 @@ class VehicleMakeAdmin(admin.ModelAdmin):
     ordering = ['name'] # This will order the list view by the field
     readonly_fields = ['created_by', 'last_modified_by'] # This will make the fields read-only in the form
 
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.last_modified_by = request.user
+        return super().save_model(request, obj, form, change)
+
+
 @admin.register(VehicleModel)
 class VehicleModelAdmin(admin.ModelAdmin):
     list_display = ['make', 'name','created_at','modified_at']
@@ -32,6 +40,13 @@ class VehicleModelAdmin(admin.ModelAdmin):
     ordering = ['name']
     readonly_fields = ['created_by', 'last_modified_by']
 
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.last_modified_by = request.user
+        return super().save_model(request, obj, form, change)
+
+
 @admin.register(VehicleType)
 class VehicleTypeAdmin(admin.ModelAdmin):
     list_display = ['name','created_at','modified_at']
@@ -43,6 +58,13 @@ class VehicleTypeAdmin(admin.ModelAdmin):
     ordering = ['name']
     readonly_fields = ['created_by', 'last_modified_by']
 
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.last_modified_by = request.user
+        return super().save_model(request, obj, form, change)
+
+
 @admin.register(VehicleEngineType)
 class VehicleEngineTypeAdmin(admin.ModelAdmin):
     list_display = ['name']
@@ -53,6 +75,13 @@ class VehicleEngineTypeAdmin(admin.ModelAdmin):
     search_fields = ['name']
     ordering = ['name']
     readonly_fields = ['created_by', 'last_modified_by']
+
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.last_modified_by = request.user
+        return super().save_model(request, obj, form, change)
+
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
@@ -66,6 +95,12 @@ class VehicleAdmin(admin.ModelAdmin):
     list_filter = ['vehicle_model','vehicle_type','transmission','engine_type']
     ordering = ['vehicle_model','serial_number']
     readonly_fields = ['created_by', 'last_modified_by']
+
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.last_modified_by = request.user
+        return super().save_model(request, obj, form, change)
 
     def vehicle_make(self, obj):
         return obj.vehicle_model.make.name

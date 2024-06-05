@@ -12,6 +12,12 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.created_by = User.objects.first()
+        self.last_modified_by = User.objects.first()
+        super(TimeStampedModel, self).save(*args, **kwargs)
+        
 class VehicleMake(TimeStampedModel):
     name = models.CharField(_("Name"), max_length=50, unique=True)
     country = models.CharField(_("Country"), max_length=50)
