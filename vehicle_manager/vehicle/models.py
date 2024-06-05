@@ -61,7 +61,7 @@ class Vehicle(TimeStampedModel):
         ('A', 'Automatic'),
         ('M', 'Manual'),
     )
-
+    name = models.CharField(_("Name"), max_length=50)
     serial_number = models.CharField(_("Serial Number"), max_length=17, unique=True)  
     vehicle_model = models.ForeignKey(VehicleModel, verbose_name=_("Model"), on_delete=models.CASCADE)
     vehicle_type = models.ForeignKey(VehicleType, verbose_name=_("Type"), on_delete=models.CASCADE)
@@ -79,3 +79,8 @@ class Vehicle(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse("Vehicle_detail", kwargs={"pk": self.pk})
+    
+    def save(self):
+        if not self.pk:
+            self.name = f"{self.vehicle_model} {self.serial_number}"
+        super(Vehicle, self).save()
