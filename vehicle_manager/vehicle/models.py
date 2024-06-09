@@ -88,5 +88,5 @@ class Vehicle(TimeStampedModel):
     
     def save(self):
         if not self.pk:
-            self.name = f"{self.vehicle_model} {self.serial_number}"
+            self.name = f"{self.vehicle_model.make} {self.vehicle_model} - {self.vehicle_model.make}"
         super(Vehicle, self).save()

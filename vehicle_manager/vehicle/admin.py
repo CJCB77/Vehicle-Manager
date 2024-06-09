@@ -85,7 +85,7 @@ class VehicleEngineTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ['vehicle_model', 'serial_number','vehicle_make','vehicle_type','color','transmission','engine_type','created_at','modified_at']
+    list_display = ['id','vehicle_model', 'serial_number','vehicle_make','vehicle_type','color','transmission','engine_type','created_at','modified_at']
     fieldsets = [
         ('Vehicle', {'fields': ['vehicle_model', 'serial_number','vehicle_type','purchase_date']}),
         ('Details', {'fields': ['color', 'transmission', 'engine_type']}),
