@@ -1,0 +1,20 @@
+{% extends "vehicle/base.html" %}
+{% block title %}Vehicle Search{% endblock title %}
+{% block content %}
+    <section class="container-fluid mt-5">
+        <h1 class="text-center mb-4" >Vehicle Search</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="container">
+                <input type="text" class="form-control" id="inputSearch" name="search" placeholder="VehicleID or Serial Number...">
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-dark">
+                        <i class="fa-brands fa-searchengin" ></i>
+                        <span class="ms-1">Search</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock content %}
+
