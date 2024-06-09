@@ -1,17 +1,16 @@
 {% extends "vehicle/base.html" %}
 {% block title %}Vehicle Search{% endblock title %}
 {% block content %}
+
     {% if error_msg %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ error_msg }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error_msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     {% endif %}
+
     <section class="container-fluid mt-5">
         <h1 class="text-center mb-4" >Vehicle Search</h1>
-        {% if vehicle %}
-               <span>{{ vehicle.name }}</span>
-        {% endif %}
         <form method="POST">
             {% csrf_token %}
             <div class="container">
@@ -25,5 +24,41 @@
             </div>
         </form>
     </section>
+
+    {% if vehicle %}
+    <section id="result_table" class="container result_table mt-5">
+        <h4 class="text-center text-body-secondary">{{vehicle.name}}</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Serial Number</th>
+                    <th scope="col">Make</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Transmission</th>
+                    <th scope="col">Engine Type</th>
+                    <th scope="col">Purchase Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{vehicle.id}}</td>
+                    <td>{{vehicle.serial_number}}</td>
+                    <td>{{vehicle.model.make}}</td>
+                    <td>{{vehicle.vehicle_model}}</td>
+                    <td>{{vehicle.vehicle_type}}</td>
+                    <td>{{vehicle.color}}</td>
+                    <td>{{vehicle.transmission}}</td>
+                    <td>{{vehicle.engine_type}}</td>
+                    <td>{{vehicle.purchase_date}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
+    {% endif %}
+
 {% endblock content %}
 
