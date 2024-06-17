@@ -4,15 +4,21 @@ from xhtml2pdf import pisa
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+@login_required
 def index(request):
     if request.method == 'POST':
         search_query = request.POST.get('search_input')
-        if search_query.isdigit():
-            vehicle = Vehicle.objects.filter(pk=search_query).first()
+        search_criteria = request.POST.get('search_criteria')
+        
+        # Create dictionary to store search criteria
+        search_dict = {search_criteria: search_query}
+        if search_criteria == 'id' and not search_query.isdigit():
+            return render(request, 'vehicle/index.html', {'error_msg': 'ID must be a number.'})
         else:
-            vehicle = Vehicle.objects.filter(serial_number=search_query).first()
+            # Filter vehicles based on search criteria
+            vehicle = Vehicle.objects.filter(**search_dict).first()
 
         context = {'vehicle': vehicle} if vehicle else {'error_msg': 'No vehicle found.'}
         return render(request, 'vehicle/index.html', context)
