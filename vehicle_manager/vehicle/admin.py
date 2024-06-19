@@ -1,13 +1,21 @@
 from typing import Any
 from django.contrib import admin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from . models import VehicleMake, VehicleModel, VehicleType, VehicleEngineType, Vehicle
 
 
+class VehicleMakeResource(resources.ModelResource):
+    class Meta:
+        model = VehicleMake
+
+
 @admin.register(VehicleMake)
-class VehicleMakeAdmin(admin.ModelAdmin):
+class VehicleMakeAdmin(ImportExportModelAdmin):
     """
     ModelAdmin is very flexible. It has several options for dealing with customizing the interface
     """
+    resource_classes = [VehicleMakeResource] # This will allow the model to be exported and imported
     list_display = ['name', 'country','created_at','modified_at'] #This will display the fields in the list view
     # date_hierarchy = "created_at" This will include a date-based drilldown navigation by the field.
     # exclude = ['created_by'] This excludes the field from the change/create form
@@ -28,8 +36,13 @@ class VehicleMakeAdmin(admin.ModelAdmin):
         return super().save_model(request, obj, form, change)
 
 
+class VehicleModelResource(resources.ModelResource):
+    class Meta:
+        model = VehicleModel
+
 @admin.register(VehicleModel)
-class VehicleModelAdmin(admin.ModelAdmin):
+class VehicleModelAdmin(ImportExportModelAdmin):
+    resource_classes = [VehicleModelResource]
     list_display = ['make', 'name','created_at','modified_at']
     fieldsets = [
         ('Vehicle Model', {'fields': ['make', 'name']}),
@@ -47,8 +60,13 @@ class VehicleModelAdmin(admin.ModelAdmin):
         return super().save_model(request, obj, form, change)
 
 
+class VehicleTypeResource(resources.ModelResource):
+    class Meta:
+        model = VehicleType
+
 @admin.register(VehicleType)
-class VehicleTypeAdmin(admin.ModelAdmin):
+class VehicleTypeAdmin(ImportExportModelAdmin):
+    resource_classes = [VehicleTypeResource]
     list_display = ['name','created_at','modified_at']
     fieldsets = [
         ('Vehicle Type', {'fields': ['name']}),
@@ -63,10 +81,15 @@ class VehicleTypeAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         obj.last_modified_by = request.user
         return super().save_model(request, obj, form, change)
+    
 
+class VehicleEngineResource(resources.ModelResource):
+    class Meta:
+        model = VehicleEngineType
 
 @admin.register(VehicleEngineType)
-class VehicleEngineTypeAdmin(admin.ModelAdmin):
+class VehicleEngineTypeAdmin(ImportExportModelAdmin):
+    resource_classes = [VehicleEngineResource]
     list_display = ['name']
     fieldsets = [
         ('Vehicle Engine Type', {'fields': ['name']}),
@@ -82,9 +105,13 @@ class VehicleEngineTypeAdmin(admin.ModelAdmin):
         obj.last_modified_by = request.user
         return super().save_model(request, obj, form, change)
 
+class VehicleResource(resources.ModelResource):
+    class Meta:
+        model = Vehicle
 
 @admin.register(Vehicle)
-class VehicleAdmin(admin.ModelAdmin):
+class VehicleAdmin(ImportExportModelAdmin):
+    resource_classes = [VehicleResource]
     list_display = ['id','vehicle_model', 'serial_number','vehicle_make','vehicle_type','color','transmission','engine_type','created_at','modified_at']
     fieldsets = [
         ('Vehicle', {'fields': ['vehicle_model', 'serial_number','vehicle_type','purchase_date']}),
