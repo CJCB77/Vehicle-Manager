@@ -40,7 +40,7 @@
             </a>
         </div>
         <table class="table table-striped">
-            <thead>
+            <thead style="font-size: 0.9rem;">
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Serial Number</th>
@@ -51,9 +51,11 @@
                     <th scope="col">Transmission</th>
                     <th scope="col">Engine Type</th>
                     <th scope="col">Purchase Date</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Mileage</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 0.9rem;">
                 <tr>
                     <td>{{vehicle.id}}</td>
                     <td>{{vehicle.serial_number}}</td>
@@ -64,6 +66,8 @@
                     <td>{{vehicle.transmission}}</td>
                     <td>{{vehicle.engine_type}}</td>
                     <td>{{vehicle.purchase_date}}</td>
+                    <td>$ {{vehicle.price}}</td>
+                    <td>{{vehicle.mileage}}</td>
                 </tr>
             </tbody>
         </table>

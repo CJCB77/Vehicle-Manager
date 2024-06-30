@@ -64,8 +64,8 @@ class VehicleEngineType(TimeStampedModel):
 
 class Vehicle(TimeStampedModel):
     TRANSMISSION_CHOICES = (
-        ('A', 'Automatic'),
-        ('M', 'Manual'),
+        ('automatic', 'Automatic'),
+        ('manual', 'Manual'),
     )
     name = models.CharField(_("Name"), max_length=50)
     serial_number = models.CharField(_("Serial Number"), max_length=17, unique=True)  
@@ -73,8 +73,11 @@ class Vehicle(TimeStampedModel):
     vehicle_type = models.ForeignKey(VehicleType, verbose_name=_("Type"), on_delete=models.CASCADE)
     engine_type = models.ForeignKey(VehicleEngineType, verbose_name=_("Engine Type"), on_delete=models.CASCADE)
     color = models.CharField(_("Color"), max_length=50)
-    transmission = models.CharField(_("Transmission"), max_length=1, choices=TRANSMISSION_CHOICES)
+    transmission = models.CharField(_("Transmission"), choices=TRANSMISSION_CHOICES)
     purchase_date = models.DateField(_("Purchase Date"))
+    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
+    mileage = models.PositiveIntegerField(_("Mileage"))
+    year = models.PositiveIntegerField(_("Year"))
 
     class Meta:
         verbose_name = _("Vehicle")
